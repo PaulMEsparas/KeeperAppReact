@@ -1,10 +1,15 @@
-import React from 'react';
+import React from "react";
+import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 
-
-function Header(){
-    return <header> <h1>Keeper App</h1></header>
-   
-};
-
+function Header() {
+  return (
+    <header>
+      <h1>
+        <TipsAndUpdatesIcon />
+        Notes to do
+      </h1>
+    </header>
+  );
+}
 
 export default Header;

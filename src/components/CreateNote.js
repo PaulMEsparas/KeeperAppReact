@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import AddIcon from "@mui/icons-material/Add";
+import Fab from "@mui/material/Fab";
+import Zoom from "@mui/material/Zoom";
 
 export function CreateArea(props) {
   const [note, setNote] = useState({
@@ -6,42 +9,46 @@ export function CreateArea(props) {
     content: "",
   });
 
+  const [isCLicked, setClicked] = useState(false);
+
   function addNote(e) {
     e.preventDefault();
     const { name, value } = e.target;
     setNote((prev) => ({ ...prev, [name]: value }));
   }
 
-  // function submitNote(e){
-  //   e.preventDefault();
-  //   props.note();
-  // };
-
   return (
-    <div>
-      <form>
-        <input
-          onChange={addNote}
-          name="title"
-          value={note.title}
-          placeholder="Title"
-        />
+    <div className="note-container">
+      <form className="create-note">
+        {isCLicked && (
+          <input
+            onChange={addNote}
+            name="title"
+            value={note.title}
+            placeholder="Title"
+          />
+        )}
         <textarea
+          onClick={() => setClicked(true)}
           onChange={addNote}
           name="content"
           placeholder="Take a note..."
-          rows="3"
+          rows={isCLicked ? 3 : 1}
           value={note.content}
         />
-        <button
-          onClick={(e) => {
-            props.getNote(note);
-            setNote(() => ({ title: "", content: "" }));
-            e.preventDefault();
-          }}
-        >
-          Add
-        </button>
+        <Zoom in={isCLicked}>
+          <Fab
+            color={"warning"}
+            onClick={(e) => {
+              e.preventDefault();
+              props.getNote(note);
+              setNote(() => ({ title: "", content: "" }));
+              setClicked(false);
+            }}
+          >
+            <AddIcon />
+          </Fab>
+        </Zoom>
       </form>
     </div>
   );
